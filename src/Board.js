@@ -172,9 +172,6 @@
       for(var i = 0; i < obj.length; i++){
         // guard against last index position, 
         // current will be on ahead of our index after first iteration
-        if (obj[i][current] === undefined ){
-          break;
-        }
         // increment count
         if ( obj[i][current] === 1) {
         count++;
@@ -192,10 +189,12 @@
     hasAnyMajorDiagonalConflicts: function() {
       // get all rows
       var obj = this.rows();
+      var n = obj.length;
       var result = false;
       
       // use row length as an incrementer for hasMajorDiagonalConflictAt
-      for ( var i = 0; i < obj.length; i++) {
+      // change starting point to be -n + 1, which coves entire board
+      for ( var i = -1*n+1; i < n; i++) {
         if (this.hasMajorDiagonalConflictAt(i)) {
           result = true;
         }
@@ -214,9 +213,6 @@
       var current = minorDiagonalColumnIndexAtFirstRow;
       var count = 0;
       for(var i = 0; i < obj.length; i++){
-        if (obj[i][current] === undefined ){
-          break;
-        }
         // instead of incrementing counr, decrement to find one down, one left
         if ( obj[i][current] === 1) {
         count++;
@@ -233,9 +229,11 @@
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
       var obj = this.rows();
+      var n = obj.length;
       var result = false;
 
-      for ( var i = 0; i < obj.length; i++) {
+      // change end of range to 2n -1 to check entire board 
+      for ( var i = 0; i < 2*n-1; i++) {
         if (this.hasMinorDiagonalConflictAt(i)) {
           result = true;
         }
